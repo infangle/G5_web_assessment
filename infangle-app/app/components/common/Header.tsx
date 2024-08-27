@@ -25,7 +25,7 @@ const Header = () => {
       </div>
 
       {/* Navbar Links and Auth Buttons */}
-      <nav className={`nav-bar flex flex-col sm:flex-row items-center font-montserrat w-full sm:w-auto ${isOpen ? 'block' : 'hidden'} sm:block`}>
+      <nav className={`nav-bar flex flex-col sm:flex-row items-center font-montserrat w-full sm:w-auto ${isOpen ? 'block' : 'hidden'} sm:flex`}>
         <div className='nav-list flex flex-col sm:flex-row gap-4 sm:gap-8 items-center'>
           <Link href="/" className={`text-gray-700 ${pathname === '/' ? 'text-blue-500 underline' : ''}`}>Home</Link>
           <Link href="/teams" className={`text-gray-700 ${pathname === '/teams' ? 'text-blue-500 underline' : ''}`}>Teams</Link>
@@ -35,8 +35,8 @@ const Header = () => {
           <Link href="/get-involved" className={`text-gray-700 ${pathname === '/get-involved' ? 'text-blue-500 underline' : ''}`}>Get Involved</Link>
         </div>
 
-        <div className='auth-btn flex flex-col sm:flex-row gap-4 sm:gap-6 mt-4 sm:mt-0'>
-          <button className='border py-2 px-4 rounded'>Login</button>
+        <div className='auth-btn hidden sm:flex flex-row gap-4 sm:gap-6 ml-8'>
+          <button className=''>Login</button>
           <button className="bg-blue-500 font-montserrat text-white text-center py-2 px-4 rounded-md">Donate</button>
         </div>
       </nav>

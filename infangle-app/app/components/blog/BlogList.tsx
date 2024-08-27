@@ -1,9 +1,41 @@
-import React from 'react'
+import React from 'react';
+import BlogCard from './BlogCard';
 
 const BlogList = () => {
   return (
-    <div>BlogList</div>
-  )
-}
+    <div className='list px-8 py-6'>
+      <div className='header flex items-center justify-between mb-8'>
+        <h1 className='text-left text-xl font-bold'>Blogs</h1>
+        <div className='flex-1 flex justify-center'>
+          <form className='flex items-center space-x-2'>
+            <input
+              placeholder='Search...'
+              className='bg-gray-200 rounded-[100px] py-2 px-4 w-80 h-10'
+            />
+            <button
+              type='button'
+              className='bg-[#264FAD] text-white py-2 px-4 rounded-[100px]'
+            >
+              + New Blog
+            </button>
+          </form>
+        </div>
+      </div>
+      <div className='blogs overflow-y-auto px-12'>
+        <div className='flex flex-col space-y-4'>
+          <BlogCard/>
+          <hr className='border-t border-gray-300'/>
+          <BlogCard/>
+          <hr className='border-t border-gray-300'/>
+          <BlogCard/>
+          <hr className='border-t border-gray-300'/>
+          <BlogCard/>
+          <hr className='border-t border-gray-300'/>
+          <BlogCard/>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default BlogList
+export default BlogList;

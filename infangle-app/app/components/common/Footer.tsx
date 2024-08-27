@@ -10,7 +10,7 @@ import help from '../../../public/images/rafiki.png';
 
 const Footer = () => {
   return (
-    <div className='footer-container flex flex-col items-center px-8 py-6 text-[#000000] font-Montserrat'>
+    <div className='footer-container flex flex-col items-center mt-10 px-8 py-6 text-[#000000] font-Montserrat'>
       <div className='flex flex-col md:flex-row justify-between gap-8 items-start w-full max-w-screen-xl'>
         {/* Left Section */}
         <div className='left flex flex-row gap-8 items-start mb-6 md:mb-0 w-full md:w-1/3'>

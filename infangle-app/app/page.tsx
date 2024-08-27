@@ -1,9 +1,15 @@
 "use client"
 import React from 'react'
+import Header from './components/common/Header';
+import Footer from './components/common/Footer';
+
 
 export const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+      <Header/>
+      <Footer/>
+    </div>
   )
 }
 

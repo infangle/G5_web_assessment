@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import BlogCard from './BlogCard';
-import { Blog } from './blog'; // Import the Blog interface
+import Shimmer from '../loading/Shimmer'; // Import Shimmer component
+import { Blog } from './blog'; 
 
 const BlogList: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -11,8 +13,10 @@ const BlogList: React.FC = () => {
         const response = await fetch('https://a2sv-backend.onrender.com/api/blogs');
         const data: Blog[] = await response.json();
         setBlogs(data.slice(0, 5)); // Limit to 5 blogs
+        setLoading(false); // Set loading to false after fetching data
       } catch (error) {
         console.error('Error fetching blogs:', error);
+        setLoading(false); // Set loading to false even if there's an error
       }
     };
 
@@ -40,12 +44,25 @@ const BlogList: React.FC = () => {
       </div>
       <div className='blogs overflow-y-auto px-12'>
         <div className='flex flex-col space-y-4'>
-          {blogs.map((blog) => (
-            <React.Fragment key={blog._id}>
-              <BlogCard blog={blog} />
-              <hr className='border-t border-gray-300' />
-            </React.Fragment>
-          ))}
+          {loading ? (
+            // Show shimmer effect while loading
+            <>
+              {[...Array(5)].map((_, index) => (
+                <React.Fragment key={index}>
+                  <Shimmer />
+                  <hr className='border-t border-gray-300' />
+                </React.Fragment>
+              ))}
+            </>
+          ) : (
+            // Show blog cards after loading
+            blogs.map((blog) => (
+              <React.Fragment key={blog._id}>
+                <BlogCard blog={blog} />
+                <hr className='border-t border-gray-300' />
+              </React.Fragment>
+            ))
+          )}
         </div>
       </div>
     </div>

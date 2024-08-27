@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from 'react';
 import { Blog } from '../../components/blog/blog'; // Adjust path if necessary
@@ -39,13 +39,11 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
 
   if (!blog) return <p>No blog found</p>;
 
-  // Function to get the first sentence
   const getFirstSentence = (text: string) => {
     const index = text.indexOf('.');
     return index !== -1 ? text.slice(0, index + 1) : text;
   };
 
-  // Function to get the remaining text
   const getRemainingText = (text: string) => {
     const index = text.indexOf('.');
     return index !== -1 ? text.slice(index + 1).trim() : '';
@@ -98,9 +96,7 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
         <span className='text-lg font-semibold'>
           {getFirstSentence(blog.description)}
         </span>
-        <br>
-        </br><br></br>
-        <span>
+        <span className='block mt-2'>
           {getRemainingText(blog.description)}
         </span>
       </div>

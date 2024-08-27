@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { Blog } from '../../components/blog/blog'; // Adjust path if necessary
+import { Blog } from '../../components/blog/blog'; // Import the updated Blog type
+import RelatedBlogList from '../../components/blog/RelatedBlogs/RelatedBlogList'; // Adjust path if necessary
 
 interface Props {
   params: {
@@ -12,6 +13,7 @@ interface Props {
 const BlogDetail: React.FC<Props> = ({ params }) => {
   const { detail } = params;
   const [blog, setBlog] = useState<Blog | null>(null);
+  const [relatedBlogs, setRelatedBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,6 +26,15 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
         }
         const data: Blog = await response.json();
         setBlog(data);
+
+        // Fetch related blogs
+        const tagsQuery = data.tags.join(',');
+        const relatedResponse = await fetch(`https://a2sv-backend.onrender.com/api/blogs?tags=${tagsQuery}`);
+        if (!relatedResponse.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const relatedData: Blog[] = await relatedResponse.json();
+        setRelatedBlogs(relatedData.filter((b) => b._id !== data._id)); // Exclude the current blog
       } catch (error: any) {
         setError(error.message || 'Error fetching blog details');
       } finally {
@@ -51,6 +62,7 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
 
   return (
     <div className='flex flex-col items-center px-24 py-8'>
+      {/* Blog Title */}
       <h1 className='text-center' style={{
         fontFamily: 'IM FELL French Canon',
         fontSize: '48px',
@@ -61,10 +73,11 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
         {blog.title}
       </h1>
 
+      {/* Blog Tags */}
       <div className='flex justify-center gap-2 mt-4'>
         {blog.tags.map((tag, index) => (
           <span key={index} className='text-gray-700'>
-            {tag} ,
+            {tag},
           </span>
         ))}
         <span className='text-gray-700'>
@@ -72,12 +85,14 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
         </span>
       </div>
 
+      {/* Blog Image */}
       <img
-        src={blog.image}
+        src={blog.image || "http"}
         alt='Blog image'
         className='object-cover w-full px-20 h-[350px] rounded-lg mt-6'
       />
 
+      {/* Author Information */}
       <div className='flex flex-col items-center mt-6'>
         <img
           src={blog.author?.image || 'https://picsum.photos/200/300'}
@@ -92,6 +107,7 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
 
       <p className='text-gray-500 mt-4'>{blog.author?._id || 'No ID provided'}</p>
 
+      {/* Blog Description */}
       <div className='text-gray-800 mt-6 ml-6'>
         <span className='text-lg font-semibold'>
           {getFirstSentence(blog.description)}
@@ -99,6 +115,12 @@ const BlogDetail: React.FC<Props> = ({ params }) => {
         <span className='block mt-2'>
           {getRemainingText(blog.description)}
         </span>
+      </div>
+
+      {/* Related Blogs */}
+      <div className='mt-8'>
+        <h2 className='text-2xl font-bold mb-4'>Related Blogs</h2>
+        <RelatedBlogList blogs={relatedBlogs} />
       </div>
     </div>
   );

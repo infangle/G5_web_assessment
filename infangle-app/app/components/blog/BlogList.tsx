@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import BlogCard from './BlogCard';
+import { Blog } from './blog'; // Import the Blog interface
 
-const BlogList = () => {
+const BlogList: React.FC = () => {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch('https://a2sv-backend.onrender.com/api/blogs');
+        const data: Blog[] = await response.json();
+        setBlogs(data.slice(0, 5)); // Limit to 5 blogs
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
   return (
     <div className='list px-8 py-6'>
       <div className='header flex items-center justify-between mb-8'>
@@ -23,15 +40,12 @@ const BlogList = () => {
       </div>
       <div className='blogs overflow-y-auto px-12'>
         <div className='flex flex-col space-y-4'>
-          <BlogCard/>
-          <hr className='border-t border-gray-300'/>
-          <BlogCard/>
-          <hr className='border-t border-gray-300'/>
-          <BlogCard/>
-          <hr className='border-t border-gray-300'/>
-          <BlogCard/>
-          <hr className='border-t border-gray-300'/>
-          <BlogCard/>
+          {blogs.map((blog) => (
+            <React.Fragment key={blog._id}>
+              <BlogCard blog={blog} />
+              <hr className='border-t border-gray-300' />
+            </React.Fragment>
+          ))}
         </div>
       </div>
     </div>

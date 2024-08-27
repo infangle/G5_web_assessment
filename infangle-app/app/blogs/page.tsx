@@ -1,10 +1,14 @@
 "use client"
 import React from 'react'
+import BlogList from './../components/blog/BlogList';
 
-const blog = () => {
+
+export const Home = () => {
   return (
-    <div>blog</div>
+    <div>
+      <BlogList/>
+    </div>
   )
 }
 
-export default blog
+export default Home;

@@ -1,18 +1,13 @@
-"use client"
-import React from 'react'
-import Header from './components/common/Header';
-import Footer from './components/common/Footer';
-import BlogList from './components/blog/BlogList';
+"use client"; // Ensure this is a client component
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
+export default function Home() {
+  const router = useRouter();
 
-export const Home = () => {
-  return (
-    <div>
-      <Header/>
-      <BlogList/>
-      <Footer/>
-    </div>
-  )
+  useEffect(() => {
+    router.push('/blogs'); // Redirect to the blogs page
+  }, [router]);
+
+  return null; // Return null since we're redirecting
 }
-
-export default Home;
